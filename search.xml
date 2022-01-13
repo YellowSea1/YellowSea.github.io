@@ -105,9 +105,9 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2022/01/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%A2%98%E7%9B%AE/</url>
-    <content><![CDATA[<h2 id="二叉树题目"><a href="#二叉树题目" class="headerlink" title="二叉树题目"></a>二叉树题目</h2><h3 id="1-二叉树按层遍历并收集节点"><a href="#1-二叉树按层遍历并收集节点" class="headerlink" title="1.二叉树按层遍历并收集节点"></a>1.二叉树按层遍历并收集节点</h3><p><a href="https://leetcode.com/problems/balanced-binary-tree">https://leetcode.com/problems/balanced-binary-tree</a></p>
+    <title>二叉树题目</title>
+    <url>/2021/01/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="1-二叉树按层遍历并收集节点"><a href="#1-二叉树按层遍历并收集节点" class="headerlink" title="1.二叉树按层遍历并收集节点"></a>1.二叉树按层遍历并收集节点</h3><p><a href="https://leetcode.com/problems/balanced-binary-tree">https://leetcode.com/problems/balanced-binary-tree</a></p>
 <p><strong>如何顺序收集每层节点的list？</strong></p>
 <p>(1) 使用队列收集每一层的节点（队列可以用arrayList或LinkedList实现)</p>
 <p>(2) 收集队列的size，size为第三步执行的次数</p>
@@ -136,6 +136,12 @@
 <h3 id="5-路径总和"><a href="#5-路径总和" class="headerlink" title="5.路径总和"></a>5.路径总和</h3><p><a href="https://leetcode-cn.com/problems/path-sum-ii/">https://leetcode-cn.com/problems/path-sum-ii/</a></p>
 <p>给你二叉树的根节点 <code>root</code> 和一个整数目标和 <code>targetSum</code> ，找出所有 <strong>从根节点到叶子节点</strong> 路径总和等于给定目标和的路径。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;List&lt;Integer&gt;&gt; pathSum(TreeNode root, <span class="keyword">int</span> sum) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; ans = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ans;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;Integer&gt; path=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        process(root,path,<span class="number">0</span>,sum,ans);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(TreeNode x, List&lt;Integer&gt; path, <span class="keyword">int</span> preSum, <span class="keyword">int</span> sum, List&lt;List&lt;Integer&gt;&gt; ans)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x.left == <span class="keyword">null</span> &amp;&amp; x.right == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (preSum + x.val == sum) &#123;</span><br><span class="line">                path.add(x.val);</span><br><span class="line">                List&lt;Integer&gt; ans1 = copy(path);</span><br><span class="line">                ans.add(ans1);</span><br><span class="line">                path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//不是叶子节点</span></span><br><span class="line">        path.add(x.val);</span><br><span class="line">        preSum += x.val;</span><br><span class="line">        <span class="keyword">if</span> (x.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            process(x.left, path, preSum, sum, ans);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (x.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            process(x.right, path, preSum, sum, ans);</span><br><span class="line">        &#125;</span><br><span class="line">        path.remove(path.size() - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="title">copy</span><span class="params">(List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list1 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Integer num : list) &#123;</span><br><span class="line">            list1.add(num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list1;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>二叉树</tag>
+      </tags>
   </entry>
   <entry>
     <title>位图、位运算实现加减乘除</title>
@@ -359,7 +365,7 @@
         <category>数据结构与算法</category>
       </categories>
       <tags>
-        <tag>二叉树 | 比较器 | 优先队列</tag>
+        <tag>二叉树 比较器 优先队列</tag>
       </tags>
   </entry>
 </search>
