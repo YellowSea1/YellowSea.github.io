@@ -1,51 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>利用Hexo+github搭建个人博客</title>
-    <url>/2021/12/28/blog/%E5%88%A9%E7%94%A8Hexo+github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h1 id="利用Hexo-github搭建个人博客"><a href="#利用Hexo-github搭建个人博客" class="headerlink" title="利用Hexo+github搭建个人博客"></a>利用Hexo+github搭建个人博客</h1><h2 id="1-搭建博客需要的工具"><a href="#1-搭建博客需要的工具" class="headerlink" title="1.搭建博客需要的工具"></a>1.搭建博客需要的工具</h2><h3 id="1-1安装node-js"><a href="#1-1安装node-js" class="headerlink" title="1.1安装node.js"></a>1.1安装node.js</h3><p>参考教程：<a href="https://space.bilibili.com/13282871/video">https://space.bilibili.com/13282871/video</a></p>
-<p>安装完成后检查node.js以及下面的npm是否安装成功</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173436125.png" alt="image-20211219173436125"></p>
-<h3 id="1-2安装git"><a href="#1-2安装git" class="headerlink" title="1.2安装git"></a>1.2安装git</h3><p>安装完成后检查是否安装成功</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173507543.png" alt="image-20211219173507543"></p>
-<h3 id="1-3Hexo下载"><a href="#1-3Hexo下载" class="headerlink" title="1.3Hexo下载"></a>1.3Hexo下载</h3><p><code>npm install hexo-cli -g</code></p>
-<p>检查是否安装成功</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173641891.png" alt="image-20211219173641891"></p>
-<h2 id="2-创建github仓库"><a href="#2-创建github仓库" class="headerlink" title="2.创建github仓库"></a>2.创建github仓库</h2><p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219175114837.png" alt="image-20211219175114837"></p>
-<p>命名格式必须是：注册名.github.io</p>
-<h2 id="3-生成SSH-Keys"><a href="#3-生成SSH-Keys" class="headerlink" title="3.生成SSH Keys"></a>3.生成SSH Keys</h2><p>进入任意一个目录，调出git bash</p>
-<p>生成ssh私钥和公钥 <code>ssh-keygen -t rsa -C &quot;邮件地址&quot;</code></p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005037405.png" alt="image-20211221005037405"></p>
-<p>一直enter就行</p>
-<p>找到生成的公钥，一般在 C:\Users[account] .ssh 目录下id_rsa.pub文件,[account]是主机的用户名</p>
-<p>将公钥添加至github</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005431677.png" alt="image-20211221005431677"></p>
-<p> 检查公钥是否添加成功 <code>ssh -T git@github.com</code></p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005519439.png" alt="image-20211221005519439"></p>
-<h2 id="4-本地生成博客内容"><a href="#4-本地生成博客内容" class="headerlink" title="4.本地生成博客内容"></a>4.本地生成博客内容</h2><p>本地新建一个目录用于存放博客</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init <span class="comment">#初始化博客</span></span><br><span class="line">hexo g <span class="comment">#生成博客</span></span><br><span class="line">hexo s<span class="comment">#启动博客</span></span><br></pre></td></tr></table></figure>
-
-<p>博客启动后本地访问网址</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221100125779.png" alt="image-20211221100125779"></p>
-<p>本地页面部署成功</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221100558152.png" alt="image-20211221100558152"></p>
-<h2 id="5-发布博客到互联网"><a href="#5-发布博客到互联网" class="headerlink" title="5.发布博客到互联网"></a>5.发布博客到互联网</h2><p>修改配置文件 _config.yml(在根目录下)</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211222153449132.png" alt="image-20211222153449132"></p>
-<p>安装插件并将博客上传到gitee</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>此时需要登录github，登陆完之后自动上传</p>
-<p>仓库setting中可以找到博客访问路径</p>
-<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211222155203143.png" alt="image-20211222155203143"></p>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo butterfly</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>二分法|时间复杂度|动态数组|哈希表</title>
     <url>/2021/01/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%88%86%E3%80%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E3%80%81%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%93%88%E5%B8%8C%E8%A1%A8/</url>
     <content><![CDATA[<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>几种应用场景：</p>
@@ -102,6 +57,83 @@
       </categories>
       <tags>
         <tag>二分法 时间复杂度 动态数组 哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>泛型</title>
+    <url>/2021/01/18/JavaSE/%E6%B3%9B%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><h3 id="【1】什么是泛型（Generic）："><a href="#【1】什么是泛型（Generic）：" class="headerlink" title="【1】什么是泛型（Generic）："></a>【1】什么是泛型（Generic）：</h3><p>泛型就相当于标签<br>形式：&lt;&gt;  </p>
+<p>集合容器类在设计阶段/声明阶段不能确定这个容器到底实际存的是什么类型的对象，所以在JDK1.5之前只能把元素类型设计为<strong>Object</strong>，JDK1.5之 后使用泛型来解决。</p>
+<p>因为这个时候除了元素的类型不确定，其他的部分是确定的，例如关于这个元素如何保存，如何管理等是确定的，因此此时把元素的类型设计成一个参数，这个类型参数叫做泛型。</p>
+<p>Collection<E>, List<E>， ArrayList<E> 这个<E>就是类型参数，即泛型。</p>
+<blockquote>
+<p>提供了编译时类型安全检测机制，该机制允许程序员在编译时检测到非法的类型</p>
+<p>泛型的本质是参数化类型,也就是说所操作的数据类型被指定为一个参数</p>
+<p><strong>类型擦除：Java在运行期间，所有的泛型信息都会被擦除</strong></p>
+</blockquote>
+<h3 id="【2】没有泛型的时候使用集合："><a href="#【2】没有泛型的时候使用集合：" class="headerlink" title="【2】没有泛型的时候使用集合："></a>【2】没有泛型的时候使用集合：</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.msb.test01;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test01</span> </span>&#123;</span><br><span class="line">   <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//创建一个ArrayList集合，向这个集合中存入学生的成绩：</span></span><br><span class="line">       ArrayList al = <span class="keyword">new</span> ArrayList();</span><br><span class="line">       al.add(<span class="number">98</span>);</span><br><span class="line">       al.add(<span class="number">18</span>);</span><br><span class="line">       al.add(<span class="number">39</span>);</span><br><span class="line">       al.add(<span class="number">60</span>);</span><br><span class="line">       al.add(<span class="number">83</span>);</span><br><span class="line">       al.add(<span class="string">&quot;丽丽&quot;</span>);</span><br><span class="line">       <span class="comment">//对集合遍历查看：</span></span><br><span class="line">       <span class="keyword">for</span>(Object obj:al)&#123;</span><br><span class="line">           System.out.println(obj);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不使用泛型的话，有缺点：<br>一般我们在使用的时候基本上往集合中存入的都是相同类型的数据–》便于管理，所以现在什么引用数据类型都可以存入集合，不方便！</p>
+<h3 id="【3】JDK1-5以后开始使用泛型，集合中使用泛型："><a href="#【3】JDK1-5以后开始使用泛型，集合中使用泛型：" class="headerlink" title="【3】JDK1.5以后开始使用泛型，集合中使用泛型："></a>【3】JDK1.5以后开始使用泛型，集合中使用泛型：</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.msb.test01;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test01</span> </span>&#123;</span><br><span class="line">   <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//创建一个ArrayList集合，向这个集合中存入学生的成绩：</span></span><br><span class="line">       <span class="comment">//加入泛型的优点：在编译时期就会对类型进行检查，不是泛型对应的类型就不可以添加入这个集合。</span></span><br><span class="line">       ArrayList&lt;Integer&gt; al = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">       al.add(<span class="number">98</span>);</span><br><span class="line">       al.add(<span class="number">18</span>);</span><br><span class="line">       al.add(<span class="number">39</span>);</span><br><span class="line">       al.add(<span class="number">60</span>);</span><br><span class="line">       al.add(<span class="number">83</span>);</span><br><span class="line">       <span class="comment">/*al.add(&quot;丽丽&quot;);</span></span><br><span class="line"><span class="comment">       al.add(9.8);*/</span></span><br><span class="line">       <span class="comment">//对集合遍历查看：</span></span><br><span class="line">       <span class="comment">/*for(Object obj:al)&#123;</span></span><br><span class="line"><span class="comment">           System.out.println(obj);</span></span><br><span class="line"><span class="comment">       &#125;*/</span></span><br><span class="line">       <span class="keyword">for</span>(Integer i:al)&#123;</span><br><span class="line">           System.out.println(i);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="【4】泛型总结："><a href="#【4】泛型总结：" class="headerlink" title="【4】泛型总结："></a>【4】泛型总结：</h3><p>（1）JDK1.5以后<br>（2）泛型实际就是 一个&lt;&gt;引起来的 参数类型，这个参数类型  具体在使用的时候才会确定具体的类型（3）使用了泛型以后，可以确定集合中存放数据的类型，在<strong>编译时期</strong>就可以检查出来。<br>（4）使用泛型你可能觉得麻烦，实际使用了泛型才会简单，后续的遍历等操作简单。<br>（5）泛型的类型：都是<strong>引用数据类型，不能是基本数据类型</strong>。<br>（6）<code>ArrayList&lt;Integer&gt; al = new ArrayList&lt;Integer&gt;();</code>在JDK1.7以后可以写为：<br><code>ArrayList&lt;Integer&gt; al = new ArrayList&lt;&gt;(); </code>    —   &lt;&gt;  —钻石运算符</p>
+<h2 id="泛型类，泛型接口"><a href="#泛型类，泛型接口" class="headerlink" title="泛型类，泛型接口"></a>泛型类，泛型接口</h2><h3 id="【1】泛型类的定义和实例化："><a href="#【1】泛型类的定义和实例化：" class="headerlink" title="【1】泛型类的定义和实例化："></a>【1】泛型类的定义和实例化：</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.msb.test02;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment"> * GenericTes就是一个普通的类</span></span><br><span class="line"><span class="comment"> * GenericTest&lt;E&gt; 就是一个泛型类</span></span><br><span class="line"><span class="comment"> * &lt;&gt;里面就是一个参数类型，但是这个类型是什么呢？这个类型现在是不确定的，相当于一个占位</span></span><br><span class="line"><span class="comment"> * 但是现在确定的是这个类型一定是一个引用数据类型，而不是基本数据类型</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericTest</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">   <span class="keyword">int</span> age;</span><br><span class="line">   String name;</span><br><span class="line">   E sex;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">(E n)</span></span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">b</span><span class="params">(E[] m)</span></span>&#123;</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">   <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//GenericTest进行实例化：</span></span><br><span class="line">       <span class="comment">//(1)实例化的时候不指定泛型：如果实例化的时候不明确的指定类的泛型，那么认为此泛型为Object类型</span></span><br><span class="line">       GenericTest gt1 = <span class="keyword">new</span> GenericTest();</span><br><span class="line">       gt1.a(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">       gt1.a(<span class="number">17</span>);</span><br><span class="line">       gt1.a(<span class="number">9.8</span>);</span><br><span class="line">       gt1.b(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>&#125;);</span><br><span class="line">       <span class="comment">//（2）实例化的时候指定泛型：---》推荐方式</span></span><br><span class="line">       GenericTest&lt;String&gt; gt2 = <span class="keyword">new</span> GenericTest&lt;&gt;();</span><br><span class="line">       gt2.sex = <span class="string">&quot;男&quot;</span>;</span><br><span class="line">       gt2.a(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">       gt2.b(<span class="keyword">new</span> String[]&#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>&#125;);</span><br><span class="line">       </span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="【2】继承情况："><a href="#【2】继承情况：" class="headerlink" title="【2】继承情况："></a>【2】继承情况：</h3><p>（1）父类指定泛型：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubGenericTest</span> <span class="keyword">extends</span> <span class="title">GenericTest</span>&lt;<span class="title">Integer</span>&gt;</span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//指定父类泛型，那么子类就不需要再指定泛型了，可以直接使用</span></span><br><span class="line">        SubGenericTest sgt = <span class="keyword">new</span> SubGenericTest();</span><br><span class="line">        sgt.a(<span class="number">19</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（2）父类不指定泛型：<br>如果父类不指定泛型，那么子类也会变成一个泛型类，那这个E的类型可以在创建子类对象的时候确定：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubGenericTest2</span>&lt;<span class="title">E</span>&gt; <span class="keyword">extends</span> <span class="title">GenericTest</span>&lt;<span class="title">E</span>&gt;</span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo2</span></span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SubGenericTest2&lt;String&gt; s = <span class="keyword">new</span>  SubGenericTest2&lt;&gt;();</span><br><span class="line">        s.a(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">        s.sex = <span class="string">&quot;女&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>【3】应用场合：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118145847874.png" alt="image-20220118145847874"></p>
+<p>【4】细节：<br>（1）泛型类可以定义多个参数类型</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118145859367.png" alt="image-20220118145859367"></p>
+<p>（2）泛型类的构造器的写法：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118145907529.png" alt="image-20220118145907529"></p>
+<p>（3）不同的泛型的引用类型不可以相互赋值：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118145914649.png" alt="image-20220118145914649"></p>
+<p>（4）泛型如果不指定，那么就会被擦除，泛型对应的类型为Object类型：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118150028999.png" alt="image-20220118150028999"></p>
+<p>（5）反省类中的静态方法不能使用类的泛型：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118150108957.png" alt="image-20220118150108957"></p>
+<p>静态方法在类加载时就在内存中存在，也就是没有经过实例化就存在了，也就是还没有指定类的时候就存在了</p>
+<p>（6）不能直接使用E[]的创建：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118150310066.png" alt="image-20220118150310066"></p>
+<h2 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h2><p>1.什么是泛型方法：</p>
+<p>不是带泛型的方法就是泛型方法</p>
+<p>泛型方法有要求：这个方法的泛型的参数类型要和当前的类的泛型无关</p>
+<p>换个角度：</p>
+<p><strong>泛型方法对应的那个泛型参数类型 和  当前所在的这个类 是否是泛型类，泛型是啥无关</strong></p>
+<p><strong>2.泛型方法定义的时候，前面要加上<T></strong></p>
+<p>原因：如果不加的话，会把T当做一种数据类型，然而代码中没有T类型那么就会报错</p>
+<p>3.T的类型是在调用方法的时候确定的</p>
+<p><strong>4.泛型方法可否是静态方法？可以是静态方法</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.msb.test04;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestGeneric</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">//不是泛型方法 （不能是静态方法）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//是泛型方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt;  <span class="function"><span class="keyword">void</span> <span class="title">b</span><span class="params">(T t)</span></span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        TestGeneric&lt;String&gt; tg = <span class="keyword">new</span> TestGeneric&lt;&gt;();</span><br><span class="line">        tg.a(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">        tg.b(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">        tg.b(<span class="number">19</span>);</span><br><span class="line">        tg.b(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型参数存在继承关系的情况"><a href="#泛型参数存在继承关系的情况" class="headerlink" title="泛型参数存在继承关系的情况"></a>泛型参数存在继承关系的情况</h2><p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118150711157.png" alt="image-20220118150711157"></p>
+<p>实际上只在编译时进行类型的替换，在运行时list1和list2底层都是Object类型</p>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><h3 id="【1】在没有通配符的时候："><a href="#【1】在没有通配符的时候：" class="headerlink" title="【1】在没有通配符的时候："></a>【1】在没有通配符的时候：</h3><p>下面的a方法，相当于方法的重复定义，报错</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*public void a(List&lt;Object&gt; list)&#123;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    public void a(List&lt;String&gt; list)&#123;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    public void a(List&lt;Integer&gt; list)&#123;</span></span><br><span class="line"><span class="comment">    &#125;*/</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="【2】引入通配符："><a href="#【2】引入通配符：" class="headerlink" title="【2】引入通配符："></a>【2】引入通配符：</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Object&gt; list1 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;String&gt; list2 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Integer&gt; list3 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;?&gt; list = <span class="keyword">null</span>;</span><br><span class="line">        list = list1;</span><br><span class="line">        list = list2;</span><br><span class="line">        list = list3;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发现： A 和 B是子类父类的关系，G<A>和G<B>不存在子类父类关系，是并列的<br>加入通配符？后，<strong>G&lt;?&gt;就变成了 G<A>和G<B>的父类</strong></p>
+<h3 id="【3】使用通配符："><a href="#【3】使用通配符：" class="headerlink" title="【3】使用通配符："></a>【3】使用通配符：</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.msb.test06;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">   <span class="comment">/*public void a(List&lt;Object&gt; list)&#123;</span></span><br><span class="line"><span class="comment">   &#125;</span></span><br><span class="line"><span class="comment">   public void a(List&lt;String&gt; list)&#123;</span></span><br><span class="line"><span class="comment">   &#125;</span></span><br><span class="line"><span class="comment">   public void a(List&lt;Integer&gt; list)&#123;</span></span><br><span class="line"><span class="comment">   &#125;*/</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">(List&lt;?&gt; list)</span></span>&#123;</span><br><span class="line">       <span class="comment">//内部遍历的时候用Object即可，不用？</span></span><br><span class="line">       <span class="keyword">for</span>(Object a:list)&#123;</span><br><span class="line">           System.out.println(a);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="class"><span class="keyword">class</span> <span class="title">T</span></span>&#123;</span><br><span class="line">   <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       Test t = <span class="keyword">new</span> Test();</span><br><span class="line">       t.a(<span class="keyword">new</span> ArrayList&lt;Integer&gt;());</span><br><span class="line">       t.a(<span class="keyword">new</span> ArrayList&lt;String&gt;());</span><br><span class="line">       t.a(<span class="keyword">new</span> ArrayList&lt;Object&gt;());</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>【4】查看API中应用位置：</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20220118151016298.png" alt="image-20220118151016298"></p>
+<h2 id="使用通配符后的细节"><a href="#使用通配符后的细节" class="headerlink" title="使用通配符后的细节"></a>使用通配符后的细节</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">(List&lt;?&gt; list)</span></span>&#123;</span><br><span class="line">        <span class="comment">//1.遍历：使用Object类型遍历元素</span></span><br><span class="line">        <span class="keyword">for</span>(Object a:list)&#123;</span><br><span class="line">            System.out.println(a);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//2.数据的写入操作 ：</span></span><br><span class="line">        <span class="comment">//list.add(&quot;abc&quot;);--&gt;出错，不能随意的添加数据</span></span><br><span class="line">        list.add(<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//3.数据的读取操作：</span></span><br><span class="line">        Object s = list.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">T</span></span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Test t = <span class="keyword">new</span> Test();</span><br><span class="line">        t.a(<span class="keyword">new</span> ArrayList&lt;Integer&gt;());</span><br><span class="line">        t.a(<span class="keyword">new</span> ArrayList&lt;String&gt;());</span><br><span class="line">        t.a(<span class="keyword">new</span> ArrayList&lt;Object&gt;());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型受限"><a href="#泛型受限" class="headerlink" title="泛型受限"></a>泛型受限</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.msb.test07;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> : msb-zhaoss</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这是main方法，程序的入口</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//a,b,c三个集合是并列的关系：</span></span><br><span class="line">        List&lt;Object&gt; a = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Person&gt; b = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        List&lt;Student&gt; c = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">/*开始使用泛型受限：泛型的上限</span></span><br><span class="line"><span class="comment">        List&lt;? extends Person&gt;:</span></span><br><span class="line"><span class="comment">        就相当于：</span></span><br><span class="line"><span class="comment">        List&lt;? extends Person&gt;是List&lt;Person&gt;的子类，是List&lt;Person的子类&gt;的子类</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        List&lt;? extends Person&gt; list1 = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">/*list1 = a;</span></span><br><span class="line"><span class="comment">        list1 = b;</span></span><br><span class="line"><span class="comment">        list1 = c;*/</span></span><br><span class="line">        <span class="comment">/*开始使用泛型受限：泛型的下限</span></span><br><span class="line"><span class="comment">        List&lt;? super Person&gt;</span></span><br><span class="line"><span class="comment">        就相当于：</span></span><br><span class="line"><span class="comment">        List&lt;? super Person&gt;是List&lt;Person&gt;的父类，是List&lt;Person的父类&gt;的父类</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        List&lt;? <span class="keyword">super</span> Person&gt; list2 = <span class="keyword">null</span>;</span><br><span class="line">        list2 = a;</span><br><span class="line">        list2 = b;</span><br><span class="line">        list3 = c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>泛型</tag>
       </tags>
   </entry>
   <entry>
@@ -415,6 +447,51 @@
       </categories>
       <tags>
         <tag>二叉树 比较器 优先队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用Hexo+github搭建个人博客</title>
+    <url>/2021/12/28/blog/%E5%88%A9%E7%94%A8Hexo+github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h1 id="利用Hexo-github搭建个人博客"><a href="#利用Hexo-github搭建个人博客" class="headerlink" title="利用Hexo+github搭建个人博客"></a>利用Hexo+github搭建个人博客</h1><h2 id="1-搭建博客需要的工具"><a href="#1-搭建博客需要的工具" class="headerlink" title="1.搭建博客需要的工具"></a>1.搭建博客需要的工具</h2><h3 id="1-1安装node-js"><a href="#1-1安装node-js" class="headerlink" title="1.1安装node.js"></a>1.1安装node.js</h3><p>参考教程：<a href="https://space.bilibili.com/13282871/video">https://space.bilibili.com/13282871/video</a></p>
+<p>安装完成后检查node.js以及下面的npm是否安装成功</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173436125.png" alt="image-20211219173436125"></p>
+<h3 id="1-2安装git"><a href="#1-2安装git" class="headerlink" title="1.2安装git"></a>1.2安装git</h3><p>安装完成后检查是否安装成功</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173507543.png" alt="image-20211219173507543"></p>
+<h3 id="1-3Hexo下载"><a href="#1-3Hexo下载" class="headerlink" title="1.3Hexo下载"></a>1.3Hexo下载</h3><p><code>npm install hexo-cli -g</code></p>
+<p>检查是否安装成功</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219173641891.png" alt="image-20211219173641891"></p>
+<h2 id="2-创建github仓库"><a href="#2-创建github仓库" class="headerlink" title="2.创建github仓库"></a>2.创建github仓库</h2><p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211219175114837.png" alt="image-20211219175114837"></p>
+<p>命名格式必须是：注册名.github.io</p>
+<h2 id="3-生成SSH-Keys"><a href="#3-生成SSH-Keys" class="headerlink" title="3.生成SSH Keys"></a>3.生成SSH Keys</h2><p>进入任意一个目录，调出git bash</p>
+<p>生成ssh私钥和公钥 <code>ssh-keygen -t rsa -C &quot;邮件地址&quot;</code></p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005037405.png" alt="image-20211221005037405"></p>
+<p>一直enter就行</p>
+<p>找到生成的公钥，一般在 C:\Users[account] .ssh 目录下id_rsa.pub文件,[account]是主机的用户名</p>
+<p>将公钥添加至github</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005431677.png" alt="image-20211221005431677"></p>
+<p> 检查公钥是否添加成功 <code>ssh -T git@github.com</code></p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221005519439.png" alt="image-20211221005519439"></p>
+<h2 id="4-本地生成博客内容"><a href="#4-本地生成博客内容" class="headerlink" title="4.本地生成博客内容"></a>4.本地生成博客内容</h2><p>本地新建一个目录用于存放博客</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo init <span class="comment">#初始化博客</span></span><br><span class="line">hexo g <span class="comment">#生成博客</span></span><br><span class="line">hexo s<span class="comment">#启动博客</span></span><br></pre></td></tr></table></figure>
+
+<p>博客启动后本地访问网址</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221100125779.png" alt="image-20211221100125779"></p>
+<p>本地页面部署成功</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211221100558152.png" alt="image-20211221100558152"></p>
+<h2 id="5-发布博客到互联网"><a href="#5-发布博客到互联网" class="headerlink" title="5.发布博客到互联网"></a>5.发布博客到互联网</h2><p>修改配置文件 _config.yml(在根目录下)</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211222153449132.png" alt="image-20211222153449132"></p>
+<p>安装插件并将博客上传到gitee</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>此时需要登录github，登陆完之后自动上传</p>
+<p>仓库setting中可以找到博客访问路径</p>
+<p><img src="https://gitee.com/hhn060206/img/raw/master/img/image-20211222155203143.png" alt="image-20211222155203143"></p>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo butterfly</tag>
       </tags>
   </entry>
 </search>
