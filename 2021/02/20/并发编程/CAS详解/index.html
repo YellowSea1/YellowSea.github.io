@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CAS详解 | yellowSea</title><meta name="keywords" content="Java并发编程"><meta name="author" content="yellowSea"><meta name="copyright" content="yellowSea"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="synchronized是悲观锁，这种线程一旦得到锁，其他需要锁的线程就挂起的情况就是悲观锁。 CAS操作的就是乐观锁，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。从思想上来说，Synchronized属于悲观锁，悲观地认为程序中的并发情况严重，所以严防死守。CAS属于乐观锁，乐观地认为程序中的并发情况不那么严重，所以让线程不断去尝试更新。  什么是CAS机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAS详解">
+<meta property="og:url" content="https://yellowsea.github.io/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="yellowSea">
+<meta property="og:description" content="synchronized是悲观锁，这种线程一旦得到锁，其他需要锁的线程就挂起的情况就是悲观锁。 CAS操作的就是乐观锁，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。从思想上来说，Synchronized属于悲观锁，悲观地认为程序中的并发情况严重，所以严防死守。CAS属于乐观锁，乐观地认为程序中的并发情况不那么严重，所以让线程不断去尝试更新。  什么是CAS机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg">
+<meta property="article:published_time" content="2021-02-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-20T14:14:33.656Z">
+<meta property="article:author" content="yellowSea">
+<meta property="article:tag" content="Java并发编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yellowsea.github.io/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":100},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: yellowSea","link":"链接: ","source":"来源: yellowSea","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CAS详解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-20 22:14:33'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/hhn060206/img/raw/master/img/211228152055.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">yellowSea</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CAS详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-02-19T16:00:00.000Z" title="发表于 2021-02-20 00:00:00">2021-02-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-20T14:14:33.656Z" title="更新于 2022-02-20 22:14:33">2022-02-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CAS详解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li>synchronized是悲观锁，这种线程一旦得到锁，其他需要锁的线程就挂起的情况就是悲观锁。</li>
+<li>CAS操作的就是乐观锁，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。<br>从思想上来说，Synchronized属于悲观锁，悲观地认为程序中的并发情况严重，所以严防死守。CAS属于乐观锁，乐观地认为程序中的并发情况不那么严重，所以让线程不断去尝试更新。</li>
+</ul>
+<h3 id="什么是CAS机制"><a href="#什么是CAS机制" class="headerlink" title="什么是CAS机制"></a>什么是CAS机制</h3><p>CAS是英文单词Compare And Swap的缩写，翻译过来就是比较并替换。</p>
+<p>CAS机制当中使用了3个基本操作数：<strong>内存地址V，旧的预期值A，要修改的新值B。</strong></p>
+<p>更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B。</p>
+<p>这样说或许有些抽象，我们来看一个例子：</p>
+<p>1.在内存地址V当中，存储着值为10的变量。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114303.png"></p>
+<p>2.此时线程1想要把变量的值增加1。对线程1来说，旧的预期值A=10，要修改的新值B=11。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114324.png"></p>
+<p>3.在线程1要提交更新之前，另一个线程2抢先一步，把内存地址V中的变量值率先更新成了11。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114348.png"></p>
+<p>4.线程1开始提交更新，首先进行A和地址V的实际值比较（Compare），发现A不等于V的实际值，提交失败。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114403.png"></p>
+<p>5.线程1重新获取内存地址V的当前值，并重新计算想要修改的新值。此时对线程1来说，A=11，B=12。这个重新尝试的过程被称为自旋。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114421.png"></p>
+<p>6.这一次比较幸运，没有其他线程改变地址V的值。线程1进行Compare，发现A和地址V的实际值是相等的。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114443.png"></p>
+<p>7.线程1进行SWAP，把地址V的值替换为B，也就是12。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220114501.png"></p>
+<p>  tips：比较和更新是一个原子操作<br>  <img src="https://gitee.com/hhn060206/img/raw/master/img/20220220115223.png"></p>
+<h3 id="CAS如何给一个变量上锁"><a href="#CAS如何给一个变量上锁" class="headerlink" title="CAS如何给一个变量上锁"></a>CAS如何给一个变量上锁</h3><p>  CAS可以理解为一个无阻塞多线程争抢资源的模型。<br>  当一个线程A对变量进行了修改，导致另一个之前读过值的线程B无法写回修改的值，就可以理解为A对B上了锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicBoolean;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> hrabbit</span></span><br><span class="line"><span class="comment"> * 2018/07/16.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicBooleanTest</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicBoolean flag = <span class="keyword">new</span> AtomicBoolean(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AtomicBooleanTest ast = <span class="keyword">new</span> AtomicBooleanTest();</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(ast);</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(ast);</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;thread:&quot;</span>+Thread.currentThread().getName()+<span class="string">&quot;;flag:&quot;</span>+flag.get());</span><br><span class="line">        <span class="keyword">if</span> (flag.compareAndSet(<span class="keyword">true</span>,<span class="keyword">false</span>))&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">&quot;&quot;</span>+flag.get());</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            flag.set(<span class="keyword">true</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;重试机制thread:&quot;</span>+Thread.currentThread().getName()+<span class="string">&quot;;flag:&quot;</span>+flag.get());</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">500</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            run();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">thread:Thread-<span class="number">1</span>;flag:true</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:true</span><br><span class="line">Thread-<span class="number">1</span>false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">重试机制thread:Thread-<span class="number">0</span>;flag:false</span><br><span class="line">thread:Thread-<span class="number">0</span>;flag:true</span><br><span class="line">Thread-<span class="number">0</span>false</span><br></pre></td></tr></table></figure>
+
+<p>线程1修改了flag的值导致线程0无法写回新值，线程一对flag变量上了锁。</p>
+<h3 id="CAS存在的问题"><a href="#CAS存在的问题" class="headerlink" title="CAS存在的问题"></a>CAS存在的问题</h3><p>1.CPU开销大<br>在并发量比较高的情况下，如果一个线程反复尝试更新一个值但是更新不成功，就会一直自旋，给CPU带来很大的压力</p>
+<p>2.只能保证一个共享变量的原子操作<br>CAS没法保证多个共享变量的原子操作，不过JDK5之后推出的JUC包下的AtomicReference类可以保证一个对象的原子性，这样就可以将多个对象放入CAS中了。</p>
+<p>3.ABA问题<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220115751.png"></p>
+<ol>
+<li> 线程1读取了数据A</li>
+<li> 线程2读取了数据A</li>
+<li> 线程2通过CAS比较，发现值是A没错，可以把数据A改成数据B</li>
+<li> 线程3读取了数据B</li>
+<li> 线程3通过CAS比较，发现数据是B没错，可以把数据B改成了数据A</li>
+<li> 线程1通过CAS比较，发现数据还是A没变，就写成了自己要改的值</li>
+</ol>
+<p>在这个过程中任何线程都没做错什么，但是值被改变了，线程1却没有办法发现，其实这样的情况出现对结果本身是没有什么影响的，但是我们还是要防范。</p>
+<h4 id="怎么防范ABA问题？"><a href="#怎么防范ABA问题？" class="headerlink" title="怎么防范ABA问题？"></a>怎么防范ABA问题？</h4><p>添加一个标志位，每操作一次就自增一次。或者使用版本号、时间戳，给每次修改做一个标记。</p>
+<p>举个栗子：现在我们去要求操作数据库，根据CAS的原则我们本来只需要查询原本的值就好了，现在我们一同查出他的标志位版本字段vision。</p>
+<p>之前不能防止ABA的正常修改：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">value</span> <span class="operator">=</span> newValue <span class="keyword">where</span> <span class="keyword">value</span> <span class="operator">=</span> #&#123;oldValue&#125;<span class="operator">/</span><span class="operator">/</span>oldValue就是我们执行前查询出来的值 </span><br></pre></td></tr></table></figure>
+
+<p>带版本号能防止ABA的修改：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update <span class="keyword">table</span> <span class="keyword">set</span> <span class="keyword">value</span> <span class="operator">=</span> newValue ，vision <span class="operator">=</span> vision <span class="operator">+</span> <span class="number">1</span> <span class="keyword">where</span> <span class="keyword">value</span> <span class="operator">=</span> #&#123;oldValue&#125; <span class="keyword">and</span> vision <span class="operator">=</span> #&#123;vision&#125; <span class="operator">/</span><span class="operator">/</span> 判断原来的值和版本号是否匹配，中间有别的线程修改，值可能相等，但是版本号<span class="number">100</span><span class="operator">%</span>不一样</span><br></pre></td></tr></table></figure>
+
+<p>除了版本号，像什么时间戳，还有JUC工具包里面也提供了这样的类，想要扩展的小伙伴可以去了解一下。</p>
+<h3 id="JUC中许多类是通过CAS实现的"><a href="#JUC中许多类是通过CAS实现的" class="headerlink" title="JUC中许多类是通过CAS实现的"></a>JUC中许多类是通过CAS实现的</h3><p>1.原子类<br>那我就拿AtomicInteger举例，他的自增函数incrementAndGet（）就是这样实现的，其中就有大量循环判断的过程，直到符合条件才成功。<br><img src="https://gitee.com/hhn060206/img/raw/master/img/20220220120215.png"><br>大概意思就是循环判断给定偏移量是否等于内存中的偏移量，直到成功才退出，看到do while的循环没。</p>
+<p>2.JUC中的非阻塞队列<br>ConcurrentLinkedQueue是通过CAS实现的</p>
+<h3 id="乐观锁在项目中的实践"><a href="#乐观锁在项目中的实践" class="headerlink" title="乐观锁在项目中的实践"></a>乐观锁在项目中的实践</h3><p>有的就比如我们在很多订单表，流水表，为了防止并发问题，就会加入CAS的校验过程</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">yellowSea</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yellowsea.github.io/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/">https://yellowsea.github.io/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yellowSea.github.io" target="_blank">yellowSea</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">Java并发编程</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/02/17/Git/Git%E6%81%A2%E5%A4%8D%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95reset%E3%80%81revert%EF%BC%88%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3%EF%BC%89/"><img class="next-cover" src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_255.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git恢复之前版本的两种方法reset、revert（图文详解）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/hhn060206/img/raw/master/img/211228152055.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">yellowSea</div><div class="author-info__description">yellowSea的博客</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/YellowSea1"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/YellowSea1" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:13433562587@163.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFCAS%E6%9C%BA%E5%88%B6"><span class="toc-text">什么是CAS机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS%E5%A6%82%E4%BD%95%E7%BB%99%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F%E4%B8%8A%E9%94%81"><span class="toc-text">CAS如何给一个变量上锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAS%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">CAS存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E9%98%B2%E8%8C%83ABA%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">怎么防范ABA问题？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JUC%E4%B8%AD%E8%AE%B8%E5%A4%9A%E7%B1%BB%E6%98%AF%E9%80%9A%E8%BF%87CAS%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="toc-text">JUC中许多类是通过CAS实现的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AE%9E%E8%B7%B5"><span class="toc-text">乐观锁在项目中的实践</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/" title="CAS详解"><img src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CAS详解"/></a><div class="content"><a class="title" href="/2021/02/20/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/CAS%E8%AF%A6%E8%A7%A3/" title="CAS详解">CAS详解</a><time datetime="2021-02-19T16:00:00.000Z" title="发表于 2021-02-20 00:00:00">2021-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/17/Git/Git%E6%81%A2%E5%A4%8D%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95reset%E3%80%81revert%EF%BC%88%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3%EF%BC%89/" title="Git恢复之前版本的两种方法reset、revert（图文详解）"><img src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_255.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Git恢复之前版本的两种方法reset、revert（图文详解）"/></a><div class="content"><a class="title" href="/2021/02/17/Git/Git%E6%81%A2%E5%A4%8D%E4%B9%8B%E5%89%8D%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95reset%E3%80%81revert%EF%BC%88%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3%EF%BC%89/" title="Git恢复之前版本的两种方法reset、revert（图文详解）">Git恢复之前版本的两种方法reset、revert（图文详解）</a><time datetime="2021-02-16T16:00:00.000Z" title="发表于 2021-02-17 00:00:00">2021-02-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/16/JavaSE/%E5%9C%A8Java%E4%B8%AD%E5%A6%82%E4%BD%95%E9%81%8D%E5%8E%86Map%E5%AF%B9%E8%B1%A1/" title="在Java中如何遍历Map对象"><img src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="在Java中如何遍历Map对象"/></a><div class="content"><a class="title" href="/2021/02/16/JavaSE/%E5%9C%A8Java%E4%B8%AD%E5%A6%82%E4%BD%95%E9%81%8D%E5%8E%86Map%E5%AF%B9%E8%B1%A1/" title="在Java中如何遍历Map对象">在Java中如何遍历Map对象</a><time datetime="2021-02-15T16:00:00.000Z" title="发表于 2021-02-16 00:00:00">2021-02-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/15/springboot/springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" title="springboot解决跨域问题"><img src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springboot解决跨域问题"/></a><div class="content"><a class="title" href="/2021/02/15/springboot/springboot%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/" title="springboot解决跨域问题">springboot解决跨域问题</a><time datetime="2021-02-14T16:00:00.000Z" title="发表于 2021-02-15 00:00:00">2021-02-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/02/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%A0%86%E3%80%81%E5%A0%86%E6%8E%92%E5%BA%8F%E3%80%81%E6%89%8B%E5%86%99%E5%A0%86/" title="堆、堆排序、手写堆"><img src="https://gitee.com/hhn060206/img/raw/master/img/F_2013_222.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="堆、堆排序、手写堆"/></a><div class="content"><a class="title" href="/2021/02/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%A0%86%E3%80%81%E5%A0%86%E6%8E%92%E5%BA%8F%E3%80%81%E6%89%8B%E5%86%99%E5%A0%86/" title="堆、堆排序、手写堆">堆、堆排序、手写堆</a><time datetime="2021-02-11T16:00:00.000Z" title="发表于 2021-02-12 00:00:00">2021-02-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://gitee.com/hhn060206/img/raw/master/img/F_2013_179.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By yellowSea</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
